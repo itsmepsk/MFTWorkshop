@@ -1,0 +1,17 @@
+CREATE TABLE `workshop`.`zone` ( `id` INT NOT NULL AUTO_INCREMENT , `zone_name` VARCHAR(100) NOT NULL , 
+`zone_code` VARCHAR(10) NOT NULL , PRIMARY KEY (`id`), UNIQUE (`zone_code`, `zone_name`)) ENGINE = InnoDB;
+
+CREATE TABLE `workshop`.`units` ( `id` INT NOT NULL AUTO_INCREMENT , `unit_name` VARCHAR(100) NOT NULL , `unit_code` 
+VARCHAR(10) NOT NULL , `zone` INT NOT NULL , PRIMARY KEY (`id`), UNIQUE (`unit_name`, `unit_code`)) ENGINE = InnoDB;
+
+CREATE TABLE `workshop`.`indentors` ( `id` INT NOT NULL AUTO_INCREMENT , `indentor_name` VARCHAR(100) NOT NULL , 
+`indentor_unit` INT NOT NULL , `indentor_department` INT NOT NULL , `added_by` INT NOT NULL , `added_on` 
+TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `workshop`.`departments` ( `id` INT NOT NULL AUTO_INCREMENT , `department_name` VARCHAR(100) NOT NULL , 
+`department_code` VARCHAR(100) NOT NULL , `added_by` INT NOT NULL , `added_on` TIMESTAMP NOT NULL 
+DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`), UNIQUE (`department_name`)) ENGINE = InnoDB;
+
+CREATE TABLE `workshop`.`accounting_unit` ( `id` INT NOT NULL AUTO_INCREMENT , `accounting_unit_name` VARCHAR(100)
+ NOT NULL , `accounting_unit_code` VARCHAR(100) NOT NULL , `units` INT NOT NULL , `added_by` INT NOT NULL , `added_on` 
+ TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;

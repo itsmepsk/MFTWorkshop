@@ -1,0 +1,82 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Full viewport height for the login container */
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #f4f4f9; /* Light background color */
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f4f4f9; /* Same as body background color */
+}
+
+form {
+    background: #fff; /* White background for form */
+    padding: 30px; /* Padding for form content */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 100%;
+    max-width: 500px; /* Increased max width for the form */
+    margin: 0 auto; /* Center the form horizontally */
+    position: relative; 
+    display: block;
+}
+
+form h1 {
+    color: #333; /* Dark text color for visibility */
+    padding: 10px 20px; /* Padding around the text */
+    font-size: 28px; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space between heading and form content */
+    text-align: center; /* Center-align text */
+    border-bottom: 2px solid #4CAF50; /* Optional: Border below the heading */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555; /* Slightly lighter text color */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.error {
+    color: #d9534f; /* Red color for error messages */
+    margin-top: 10px;
+    font-weight: bold;
+}

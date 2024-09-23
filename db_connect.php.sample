@@ -1,0 +1,19 @@
+<?php
+// Database connection details
+$dsn = 'mysql:host=;dbname='; // Replace with your actual database name
+$username = '';                                  // Replace with your DB username
+$password = '';                                      // Replace with your DB password
+
+try {
+    // Create PDO instance
+    $pdo = new PDO($dsn, $username, $password);
+    
+    // Set error mode to exceptions
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+} catch (PDOException $e) {
+    // Handle PDO exceptions (errors)
+    echo "Database Connection Failed: " . $e->getMessage();
+    exit; // Stop further execution if connection fails
+}
+?>

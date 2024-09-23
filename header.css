@@ -1,0 +1,78 @@
+/* Reset some styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header styles */
+.header {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    padding: 20px 20px; /* Increased padding to increase header height */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Flex container for header content */
+.header-content {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center;
+    width: 100%;
+    position: relative; /* Allows absolute positioning of the button */
+}
+
+/* Title styles */
+.header-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-align: center; /* Center text within its container */
+    flex: 1; /* Allows the title to take up available space */
+}
+
+/* Login/logout button container */
+.login-btn-container {
+    position: absolute;
+    right: 20px; /* Adjust this value to position button */
+    display: flex;
+    align-items: center; /* Aligns the username and button vertically */
+}
+
+/* Username styles (for logged in users) */
+.username {
+    margin-right: 15px; /* Space between username and logout button */
+    font-size: 16px;
+    font-weight: bold;
+    color: white; /* White text to match the header */
+}
+
+/* Login/Logout button styles */
+.login-btn, .logout-btn {
+    padding: 10px 20px;
+    background-color: #fff; /* White background for the button */
+    color: #4CAF50; /* Green text color */
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover, .logout-btn:hover {
+    background-color: #f1f1f1; /* Light grey on hover */
+}
+
+/* Wrapper to push content below the header */
+.content {
+    margin-top: 100px; /* Increased margin to account for the taller header */
+    padding: 20px;
+}

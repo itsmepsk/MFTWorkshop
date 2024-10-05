@@ -224,8 +224,12 @@ form button {
     color: white;
     border: none;
     /* border-radius: 4px; */
-    cursor: pointer;
+    /* cursor: pointer; */
+    padding: 0;
+    border: none;
+    background: none;
 }
+
 
 form button:hover {
     background-color: #45a049;

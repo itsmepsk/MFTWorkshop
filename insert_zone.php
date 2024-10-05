@@ -12,14 +12,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':zone_name', $zone_name);
     $stmt->bindParam(':zone_code', $zone_code);
     $stmt->bindParam(':added_by', $added_by);
-
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Zone inserted successfully!";
-        $_SESSION['message_type'] = "success";
-    } else {
-        $_SESSION['message'] = "Error inserting zone.";
+    
+    try {
+        if ($stmt->execute()) {
+            $_SESSION['message'] = "Zone inserted successfully!";
+            $_SESSION['message_type'] = "success";
+        } else {
+            $_SESSION['message'] = "Error inserting zone.";
+            $_SESSION['message_type'] = "error";
+        }
+    } catch (Exception $e) {
+        $_SESSION['message'] = "An error occurred: " . $e->getMessage();
         $_SESSION['message_type'] = "error";
     }
+    
 
     header("Location: enter_zone.php");
     exit();

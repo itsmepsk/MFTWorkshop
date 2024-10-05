@@ -15,11 +15,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':zone', $zone);
     $stmt->bindParam(':added_by', $added_by);
 
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Unit inserted successfully!";
-        $_SESSION['message_type'] = "success";
-    } else {
-        $_SESSION['message'] = "Error inserting unit.";
+    try {
+        if ($stmt->execute()) {
+            $_SESSION['message'] = "Zone inserted successfully!";
+            $_SESSION['message_type'] = "success";
+        } else {
+            $_SESSION['message'] = "Error inserting zone.";
+            $_SESSION['message_type'] = "error";
+        }
+    } catch (Exception $e) {
+        $_SESSION['message'] = "An error occurred: " . $e->getMessage();
         $_SESSION['message_type'] = "error";
     }
 

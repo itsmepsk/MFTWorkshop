@@ -31,14 +31,14 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work Orders</title>
-    <link rel="stylesheet" href="workorders.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="workorders.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="workorders.js" defer></script>
 </head>
 <body>
 <?php 
@@ -47,62 +47,146 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
 ?>
 <div class="content">
-<div class="table-container">
-    <h2 style="text-align: center;">Work Orders</h2>
+    <div class="table-container">
+        <h2 style="text-align: center;">Work Orders</h2>
 
-    <?php if (isset($_SESSION['message'])): ?>
-        <div class="alert <?= $_SESSION['message_type'] ?>">
-            <?= $_SESSION['message'] ?>
-            <?php unset($_SESSION['message']); ?>
-        </div>
-    <?php endif; ?>
+        <div id="delete_message" class="message" style="display: none;"></div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Item</th>
-                <th>Work Order Number</th>
-                <th>Date</th>
-                <th>Year</th>
-                <th>Quantity</th>
-                <th>Indentor</th>
-                <th>Consignee</th>
-                <th>Unit</th>
-                <th>Allocation</th>
-                <th>Accounting Unit</th>
-                <th>Job Number</th>
-                <th>Folio Number</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($work_orders as $work_order): ?>
+        <table id="workOrderTable">
+            <thead>
                 <tr>
-                    <td><?= htmlspecialchars($work_order['id']) ?></td>
-                    <td><?= htmlspecialchars($work_order['item_name']) ?></td>
-                    <td class="work-order-number"><?= htmlspecialchars($work_order['work_order_number']) ?></td>
-                    <td class="date"><?= htmlspecialchars($work_order['work_order_date']) ?></td>
-                    <td class="date"><?= htmlspecialchars($work_order['year']) ?></td>
-                    <td><?= htmlspecialchars($work_order['quantity']) ?></td>
-                    <td><?= htmlspecialchars($work_order['indentor_name']) ?></td>
-                    <td><?= htmlspecialchars($work_order['consignee_name']) ?></td>
-                    <td><?= htmlspecialchars($work_order['unit_name']) ?></td>
-                    <td><?= htmlspecialchars($work_order['allocation']) ?></td>
-                    <td><?= htmlspecialchars($work_order['accounting_unit_name']) ?></td>
-                    <td><?= htmlspecialchars($work_order['job_number']) ?></td>
-                    <td><?= htmlspecialchars($work_order['folio_number']) ?></td>
-                    <td>
-                        <a href="edit_workorder.php?id=<?= htmlspecialchars($work_order['id']) ?>">Edit</a>
-                        <a href="delete_workorder.php?id=<?= htmlspecialchars($work_order['id']) ?>" onclick="return confirm('Are you sure you want to delete this work order?');">Delete</a>
-                    </td>
+                    <!-- Table Headers -->
+                    <th>ID</th>
+                    <th>Item</th>
+                    <th class="work-order-number">Work Order Number</th>
+                    <th>Date</th>
+                    <th>Year</th>
+                    <th>Quantity</th>
+                    <th>Indentor</th>
+                    <th>Consignee</th>
+                    <th>Unit</th>
+                    <th>Allocation</th>
+                    <th>Accounting Unit</th>
+                    <th>Job Number</th>
+                    <th>Folio Number</th>
+                    <?php if ($canPerformActions): ?>
+                        <th>Actions</th>
+                    <?php endif; ?>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+                <!-- Filter Row -->
+                <tr>
+                    <?php for ($i = 0; $i <= 12; $i++): ?>
+                        <th>
+                            <!-- Text Filter -->
+                            <input type="text" class="filter-input" data-column="<?= $i ?>" placeholder="Filter">
+                            <!-- Excel-like Filter -->
+                            <select class="excel-filter" data-column="<?= $i ?>">
+                                <option value="">All</option>
+                                <!-- Options will be populated via JavaScript -->
+                            </select>
+                        </th>
+                    <?php endfor; ?>
+                    <th></th> <!-- Actions Column -->
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($work_orders as $work_order): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($work_order['id']) ?></td>
+                        <td><?= htmlspecialchars($work_order['item_name']) ?></td>
+                        <td class="work-order-number"><?= htmlspecialchars($work_order['work_order_number']) ?></td>
+                        <td><?= htmlspecialchars($work_order['work_order_date']) ?></td>
+                        <td><?= htmlspecialchars($work_order['year']) ?></td>
+                        <td><?= htmlspecialchars($work_order['quantity']) ?></td>
+                        <td><?= htmlspecialchars($work_order['indentor_name']) ?></td>
+                        <td><?= htmlspecialchars($work_order['consignee_name']) ?></td>
+                        <td><?= htmlspecialchars($work_order['unit_name']) ?></td>
+                        <td><?= htmlspecialchars($work_order['allocation']) ?></td>
+                        <td><?= htmlspecialchars($work_order['accounting_unit_name']) ?></td>
+                        <td><?= htmlspecialchars($work_order['job_number']) ?></td>
+                        <td><?= htmlspecialchars($work_order['folio_number']) ?></td>
+                        <?php if ($canPerformActions): ?>
+                            <td>
+                            <button class="btn btn-edit" data-id="<?php echo htmlspecialchars($work_order['id']) ?>">Edit</button>
+                            <button class="btn btn-delete" data-id="<?php echo htmlspecialchars($work_order['id']) ?>">Delete</button>    
+                            </td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
-    <a href="enter_workorder.php" class="btn">Add Work Order</a>
+        <a href="enter_workorder.php" class="btn">Add Work Order</a>
+    </div>
 </div>
-            </div>
+
+<!-- Edit Work Order Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit Work Order</h2>
+        <div id="message" class="message" style="display: none;"></div>
+        <form id="editForm" method="POST" action="update_workorder.php">
+            <input type="hidden" id="workOrderId" name="work_order_id">
+            
+            <!-- Work Order Number -->
+            <label for="workOrderNumber">Work Order Number</label>
+            <input type="text" id="workOrderNumber" name="work_order_number" required>
+
+            <!-- Quantity -->
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" required>
+
+            <!-- Date -->
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+
+            <!-- Job Number -->
+            <label for="jobNumber">Job Number</label>
+            <input type="text" id="jobNumber" name="job_number" required>
+
+            <!-- Folio Number -->
+            <label for="folioNumber">Folio Number</label>
+            <input type="text" id="folioNumber" name="folio_number" required>
+
+            <!-- Item (Dropdown) -->
+            <label for="item">Item</label>
+            <select id="item" name="item" required>
+                <!-- Options will be dynamically populated -->
+            </select>
+
+            <!-- Indentor (Dropdown) -->
+            <label for="indentor">Indentor</label>
+            <select id="indentor" name="indentor" required>
+                <!-- Options will be dynamically populated -->
+            </select>
+
+            <!-- Consignee (Dropdown) -->
+            <label for="consignee">Consignee</label>
+            <select id="consignee" name="consignee" required>
+                <!-- Options will be dynamically populated -->
+            </select>
+
+            <!-- Unit (Dropdown) -->
+            <label for="unit">Unit</label>
+            <select id="unit" name="unit" required>
+                <!-- Options will be dynamically populated -->
+            </select>
+
+            <!-- Allocation -->
+            <label for="allocation">Allocation</label>
+            <input type="text" id="allocation" name="allocation" required>
+
+            <!-- Accounting Unit (Dropdown) -->
+            <label for="accountingUnit">Accounting Unit</label>
+            <select id="accountingUnit" name="accountingUnit" required>
+                <!-- Options will be dynamically populated -->
+            </select>
+
+            <button type="submit" class="btn">Save</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

@@ -4,7 +4,7 @@ include 'db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form values
-    $indentor_name = ucwords(strtolower((htmlspecialchars($_POST['indentor_name']))));
+    $indentor_name = (htmlspecialchars($_POST['indentor_name']));
     $indentor_unit = $_POST['indentor_unit'];
     $indentor_department = $_POST['indentor_department'];
     $added_by = $_SESSION['user_id'];

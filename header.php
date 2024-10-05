@@ -18,7 +18,7 @@ $isLoggedIn = isset($_SESSION['username']); // Assuming 'username' is stored in 
 <body>
     <header class="header">
         <div class="header-content">
-            <div class="header-title">Workshop Management System</div>
+            <div class="header-title"><a style="color:white;" href="./">Workshop Management System</a></div>
             <div class="login-btn-container">
                 <?php if ($isLoggedIn): ?>
                     <!-- If the user is logged in, show the username and logout button -->

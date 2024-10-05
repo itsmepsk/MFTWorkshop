@@ -69,7 +69,7 @@ $zones = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Edit Zone</h2>
-        <div id="message" class="message"></div>
+        <div id="message" class="message" style="display: none;"></div>
         <form id="editForm">
             <input type="hidden" name="id" id="editZoneId">
             

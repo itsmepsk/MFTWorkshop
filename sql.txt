@@ -15,3 +15,5 @@ DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`), UNIQUE (`department_name`)) ENGI
 CREATE TABLE `workshop`.`accounting_unit` ( `id` INT NOT NULL AUTO_INCREMENT , `accounting_unit_name` VARCHAR(100)
  NOT NULL , `accounting_unit_code` VARCHAR(100) NOT NULL , `units` INT NOT NULL , `added_by` INT NOT NULL , `added_on` 
  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ Make unit_name, unit_code unique separately

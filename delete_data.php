@@ -43,11 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id);
         if ($stmt->execute()) {
-            echo json_encode(['success' => true]);
+            header('Content-Type: application/json');
+            echo json_encode(["success" => true]);
         } else {
+            header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Error deleting record']);
         }
     } catch (PDOException $e) {
+        header('Content-Type: application/json');
         echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
     }
 } else {

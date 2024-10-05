@@ -71,6 +71,7 @@ include 'header.php'; // Include the header
             <a href="enter_indentor.php" class="link">Enter Indentor</a>
             <a href="enter_accounting_unit.php" class="link">Enter Accounting Unit</a>
             <a href="enter_indentor.php" class="link">Enter Indentor</a>
+            <a href="consignees.php" class="link">View Consignees</a>
             <a href="enter_consignee.php" class="link">Enter Consignee</a>
             <a href="enter_department.php" class="link">Enter Department</a>
             <a href="items.php" class="link">View Items</a>

@@ -1,20 +1,32 @@
 $(document).ready(function() {
     // Event listener for the edit button
     $('.btn-edit').on('click', function() {
-        var zoneId = $(this).data('id');
+        var unitId = $(this).data('id');
         // Fetch zone details and open the modal
+        var unitName = $(this).closest('tr').find('td:eq(2)').text();
+        var unitCode = $(this).closest('tr').find('td:eq(1)').text();
+        var zone = $(this).closest('tr').find('td:eq(4)').text();
+        // console.log("Zone = "+zone);
+        $('#editUnitId').val(unitId);
+        $('#editUnitName').val(unitName);
+        $('#editUnitCode').val(unitCode);
+        $('#editZone').val(zone);
+
         $.ajax({
             url: 'fetch_data.php',
             type: 'POST',
-            data: { get_zone_id: zoneId },
+            data: { get_unit_id: unitId },
             dataType: 'json',
             success: function(response) {
                 if (response) {
-                    // Populate modal fields
-                    $('#editZoneId').val(response['zone'].id);
-                    $('#editZoneName').val(response['zone'].zone_name);
-                    $('#editZoneCode').val(response['zone'].zone_code);
+                    var zoneSelect = $('#ediZOne');
+                    zoneSelect.empty(); // Clear existing options
+                    // console.log(response);
                     
+                    populateDropdown('editZone', response['zones'], zone);
+
+                    // Set the current indentor as the selected option
+                    zoneSelect.val(zone);
                     // Show the modal
                     $('#editModal').show(); // Only show after data is loaded
                 } else {
@@ -26,6 +38,21 @@ $(document).ready(function() {
             }
         });
     });
+
+    function populateDropdown(dropdownId, options, selectedValue) {
+        let dropdown = $('#' + dropdownId);
+        dropdown.empty();  // Clear existing options
+        // console.log(options);
+        // Loop through the options and create option elements
+        options.forEach(option => {
+            let isSelected = String(option.id) === String(selectedValue) ? 'selected' : '';
+
+            // console.log('<option value="' + option.id + '" ' + isSelected + '>' + option.name + '</option>');
+            dropdown.append('<option value="' + option.id + '" ' + isSelected + ' >' + option.name + '</option>');
+        });
+
+        // dropdown.val(selectedValue); 
+    }
 
     $('.close').on('click', function() {
         $('#editModal').hide();
@@ -41,21 +68,21 @@ $(document).ready(function() {
 
     $('#editForm').on('submit', function(e) {
         e.preventDefault();
-        const data = $(this).serialize() + '&entity_type=zone';
+        const data = $(this).serialize() + '&entity_type=unit';
         $.ajax({
             url: 'update_data.php',
             type: 'POST',
             data: data,
             success: function(response) {
-                // console.log(response);
+                console.log(response.success);
                 if (response.success) {
-                    showMessage('Zone updated successfully', 'success');
+                    showMessage('Unit updated successfully', 'success');
                     setTimeout(function() {
                         $('#editModal').hide();
                         location.reload();
                     }, 2000);
                 } else {
-                    showMessage('Error updating zone', 'error');
+                    showMessage('Error updating unit', 'error');
                 }
             },
             error: function() {
@@ -69,7 +96,7 @@ $(document).ready(function() {
         if (confirm('Are you sure you want to delete this zone?')) {
             const data = {
                 id: zoneId,
-                entity_type: 'zone' // Specify the entity type
+                entity_type: 'unit' // Specify the entity type
             };
 
             $.ajax({
@@ -80,10 +107,9 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.success) {
                         $('tr[data-id="' + zoneId + '"]').remove();
-                        showDeleteMessage('Zone deleted successfully', 'success');
+                        showDeleteMessage('Unit deleted successfully', 'success');
                     } else {
-                        showDeleteMessage('Error deleting zone', 'error');
-                        // showDeleteMessage('Error deleting zone: ' + response.message, 'error');
+                        showDeleteMessage('Error deleting unit: ' + response.message, 'error');
                     }
                 },
                 error: function() {

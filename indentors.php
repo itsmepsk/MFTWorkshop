@@ -40,7 +40,7 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
         <table id="consigneesTable">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>S No.</th>
                     <!-- <th>Indentor Code</th> -->
                     <th>Indentor Name</th>
                     <th>Unit</th>
@@ -67,9 +67,12 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($indentors as $indentor): ?>
+                <?php 
+                    $counter = 1;
+                    foreach ($indentors as $indentor): 
+                ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($indentor['indentor_id']); ?></td>
+                    <td><?php echo htmlspecialchars($counter); ?></td>
                     <td><?php echo htmlspecialchars($indentor['indentor_name']); ?></td>
                     <td><?php echo htmlspecialchars($indentor['unit_name']); ?></td>
                     <td><?php echo htmlspecialchars($indentor['department_name']); ?></td>
@@ -82,7 +85,10 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
                         </td>
                     <?php endif; ?>
                 </tr>
-                <?php endforeach; ?>
+                <?php 
+                    $counter++;
+                    endforeach; 
+                ?>
             </tbody>
         </table>
     </div>

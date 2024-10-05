@@ -36,7 +36,7 @@ $units = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>S No.</th>
                     <th>Unit Code</th>
                     <th>Unit Name</th>
                     <th>Zone</th>
@@ -47,9 +47,12 @@ $units = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($units as $unit): ?>
+                <?php 
+                    $counter = 1;
+                    foreach ($units as $unit): 
+                ?>
                 <tr data-id="<?php echo $unit['id']; ?>">
-                    <td><?php echo htmlspecialchars($unit['id']); ?></td>
+                    <td><?php echo htmlspecialchars($counter); ?></td>
                     <td><?php echo htmlspecialchars($unit['unit_code']); ?></td>
                     <td><?php echo htmlspecialchars($unit['unit_name']); ?></td>
                     <td><?php echo htmlspecialchars($unit['zone_code']); ?></td>
@@ -61,7 +64,10 @@ $units = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </td>
                     <?php endif; ?>
                 </tr>
-                <?php endforeach; ?>
+                <?php 
+                    $counter = $counter + 1;
+                    endforeach; 
+                ?>
             </tbody>
         </table>
     </div>

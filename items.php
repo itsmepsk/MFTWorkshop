@@ -36,7 +36,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>S No.</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>SG/NSG</th>
@@ -50,9 +50,12 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($items as $item): ?>
+                <?php 
+                    $counter = 1;
+                    foreach ($items as $item): 
+                ?>
                 <tr data-id="<?php echo $item['id']; ?>">
-                    <td><?php echo htmlspecialchars($item['id']); ?></td>
+                    <td><?php echo htmlspecialchars($counter++); ?></td>
                     <td><?php echo htmlspecialchars($item['name']); ?></td>
                     <td><?php echo htmlspecialchars($item['description']); ?></td>
                     <td><?php echo htmlspecialchars($item['SG_NSG']); ?></td>

@@ -45,7 +45,7 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
         <table id="consigneesTable">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>S No.</th>
                     <th>Consignee Code</th>
                     <th>Consignee Name</th>
                     <th>Indentor Name</th>
@@ -72,9 +72,12 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($consignees as $consignee): ?>
+                <?php 
+                    $counter = 1;
+                    foreach ($consignees as $consignee): 
+                ?>
                 <tr data-id="<?php echo $consignee['id']; ?>">
-                    <td><?php echo htmlspecialchars($consignee['id']); ?></td>
+                    <td><?php echo htmlspecialchars($counter); ?></td>
                     <td><?php echo htmlspecialchars($consignee['consignee_code']); ?></td>
                     <td><?php echo htmlspecialchars($consignee['consignee_name']); ?></td>
                     <td><?php echo htmlspecialchars($consignee['indentor_name']); ?></td>
@@ -86,7 +89,10 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
                         </td>
                     <?php endif; ?>
                 </tr>
-                <?php endforeach; ?>
+                <?php 
+                    $counter++;
+                    endforeach; 
+                ?>
             </tbody>
         </table>
     </div>

@@ -38,6 +38,7 @@
             <div class="form-group">
                 <label for="units">Select Unit:</label>
                 <select name="units" id="units" required>
+                <option value="">Select a unit</option>
                     <?php
                     // Fetch units from the database
                     include 'db_connect.php'; // Include your database connection

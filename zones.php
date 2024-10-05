@@ -36,7 +36,7 @@ $zones = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>S No.</th>
                     <th>Zone Code</th>
                     <th>Zone Name</th>
                     <?php if ($canPerformActions): ?>
@@ -45,9 +45,12 @@ $zones = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($zones as $zone): ?>
+                <?php 
+                    $counter = 1;
+                    foreach ($zones as $zone): 
+                ?>
                 <tr data-id="<?php echo $zone['id']; ?>">
-                    <td><?php echo htmlspecialchars($zone['id']); ?></td>
+                    <td><?php echo $counter; ?></td>
                     <td><?php echo htmlspecialchars($zone['zone_code']); ?></td>
                     <td><?php echo htmlspecialchars($zone['zone_name']); ?></td>
                     <?php if ($canPerformActions): ?>
@@ -57,7 +60,10 @@ $zones = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </td>
                     <?php endif; ?>
                 </tr>
-                <?php endforeach; ?>
+                <?php 
+                    $counter = $counter + 1;
+                    endforeach; 
+                ?>
             </tbody>
         </table>
     </div>

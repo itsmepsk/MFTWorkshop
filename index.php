@@ -24,7 +24,9 @@ include 'header.php'; // Include the header
                 <a href="workorders.php" class="link">View Work Orders</a>
                 <a href="indentors.php" class="link">View Indentors</a>
                 <a href="consignees.php" class="link">View Consignees</a>
+                <a href="accountingunits.php" class="link">View Accounting units</a>
                 <a href="items.php" class="link">View Items</a>
+                <a href="departments.php" class="link">View Departments</a>
             </div>
             <!-- Second Column -->
             <div class="link-group">
@@ -33,7 +35,9 @@ include 'header.php'; // Include the header
                 <a href="enter_workorder.php" class="link">Enter Work Order</a>
                 <a href="enter_indentor.php" class="link">Enter Indentor</a>
                 <a href="enter_consignee.php" class="link">Enter Consignee</a>
+                <a href="enter_accounting_unit.php" class="link">Enter Accounting unit</a>
                 <a href="enter_item.php" class="link">Enter Items</a>
+                <a href="enter_department.php" class="link">Enter Department</a>
             </div>
         </div>
     </div>

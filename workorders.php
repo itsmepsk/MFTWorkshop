@@ -56,7 +56,7 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <thead>
                 <tr>
                     <!-- Table Headers -->
-                    <th>ID</th>
+                    <th>S No.</th>
                     <th>Item</th>
                     <th class="work-order-number">Work Order Number</th>
                     <th>Date</th>
@@ -90,9 +90,11 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($work_orders as $work_order): ?>
+                <?php 
+                    $counter = 1;
+                    foreach ($work_orders as $work_order): ?>
                     <tr>
-                        <td><?= htmlspecialchars($work_order['id']) ?></td>
+                        <td><?= htmlspecialchars($counter) ?></td>
                         <td><?= htmlspecialchars($work_order['item_name']) ?></td>
                         <td class="work-order-number"><?= htmlspecialchars($work_order['work_order_number']) ?></td>
                         <td><?= htmlspecialchars($work_order['work_order_date']) ?></td>
@@ -112,7 +114,10 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </td>
                         <?php endif; ?>
                     </tr>
-                <?php endforeach; ?>
+                <?php 
+                    $counter = $counter + 1;
+                    endforeach; 
+                ?>
             </tbody>
         </table>
 

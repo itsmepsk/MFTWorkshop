@@ -39,6 +39,7 @@ th, td {
     text-align: left;
 }
 
+
 th {
     background-color: #4CAF50;
     color: white;
@@ -74,6 +75,16 @@ tr:hover {
 
 .btn-edit {
     background-color: #4CAF50;
+}
+
+.btn-action {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.view-all {
+    background-color: rgb(12, 63, 215);
 }
 
 .btn-edit:hover {

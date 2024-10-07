@@ -45,6 +45,7 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     include 'restrictions.php'; 
     checkRole(2);
     $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
+    $hidden = [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1];
 ?>
 <div class="content">
     <div class="table-container">
@@ -58,17 +59,17 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <!-- Table Headers -->
                     <th>S No.</th>
                     <th>Item</th>
-                    <th class="work-order-number">Work Order Number</th>
+                    <th class="work-order-number lowField" style="display:none;">Work Order Number</th>
                     <th>Date</th>
                     <th>Year</th>
                     <th>Quantity</th>
                     <th>Indentor</th>
-                    <th>Consignee</th>
+                    <th class="lowField" style="display:none;">Consignee</th>
                     <th>Unit</th>
-                    <th>Allocation</th>
-                    <th>Accounting Unit</th>
-                    <th>Job Number</th>
-                    <th>Folio Number</th>
+                    <th class="lowField" style="display:none;">Allocation</th>
+                    <th class="lowField" style="display:none;">Accounting Unit</th>
+                    <th class="lowField" style="display:none;">Job Number</th>
+                    <th class="lowField" style="display:none;">Folio Number</th>
                     <?php if ($canPerformActions): ?>
                         <th>Actions</th>
                     <?php endif; ?>
@@ -76,7 +77,7 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <!-- Filter Row -->
                 <tr>
                     <?php for ($i = 0; $i <= 12; $i++): ?>
-                        <th>
+                        <th <?php if($hidden[$i] == 1) echo "class='lowField' style='display:none;'"; ?>>
                             <!-- Text Filter -->
                             <input type="text" class="filter-input" data-column="<?= $i ?>" placeholder="Filter">
                             <!-- Excel-like Filter -->
@@ -86,7 +87,9 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </select>
                         </th>
                     <?php endfor; ?>
-                    <th></th> <!-- Actions Column -->
+                    <th>
+                        <button class = "btn view-all">View/Hide columns</button>
+                    </th> <!-- Actions Column -->
                 </tr>
             </thead>
             <tbody>
@@ -96,21 +99,21 @@ $work_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <tr>
                         <td><?= htmlspecialchars($counter) ?></td>
                         <td><?= htmlspecialchars($work_order['item_name']) ?></td>
-                        <td class="work-order-number"><?= htmlspecialchars($work_order['work_order_number']) ?></td>
-                        <td><?= htmlspecialchars($work_order['work_order_date']) ?></td>
+                        <td class="work-order-number lowField" style="display:none;"><?= htmlspecialchars($work_order['work_order_number']) ?></td>
+                        <td ><?= htmlspecialchars($work_order['work_order_date']) ?></td>
                         <td><?= htmlspecialchars($work_order['year']) ?></td>
                         <td><?= htmlspecialchars($work_order['quantity']) ?></td>
                         <td><?= htmlspecialchars($work_order['indentor_name']) ?></td>
-                        <td><?= htmlspecialchars($work_order['consignee_name']) ?></td>
+                        <td class="lowField" style="display:none;"><?= htmlspecialchars($work_order['consignee_name']) ?></td>
                         <td><?= htmlspecialchars($work_order['unit_name']) ?></td>
-                        <td><?= htmlspecialchars($work_order['allocation']) ?></td>
-                        <td><?= htmlspecialchars($work_order['accounting_unit_name']) ?></td>
-                        <td><?= htmlspecialchars($work_order['job_number']) ?></td>
-                        <td><?= htmlspecialchars($work_order['folio_number']) ?></td>
+                        <td class="lowField" style="display:none;"><?= htmlspecialchars($work_order['allocation']) ?></td>
+                        <td class="lowField" style="display:none;"><?= htmlspecialchars($work_order['accounting_unit_name']) ?></td>
+                        <td class="lowField" style="display:none;"><?= htmlspecialchars($work_order['job_number']) ?></td>
+                        <td class="lowField" style="display:none;"><?= htmlspecialchars($work_order['folio_number']) ?></td>
                         <?php if ($canPerformActions): ?>
-                            <td>
-                            <button class="btn btn-edit" data-id="<?php echo htmlspecialchars($work_order['id']) ?>">Edit</button>
-                            <button class="btn btn-delete" data-id="<?php echo htmlspecialchars($work_order['id']) ?>">Delete</button>    
+                            <td class="btn-action">
+                            <button style="display: inline-block;" class="btn btn-edit" data-id="<?php echo htmlspecialchars($work_order['id']) ?>">Edit</button>
+                            <button style="display: inline-block;" class="btn btn-delete" data-id="<?php echo htmlspecialchars($work_order['id']) ?>">Delete</button>    
                             </td>
                         <?php endif; ?>
                     </tr>

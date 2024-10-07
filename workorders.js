@@ -128,6 +128,17 @@ $(document).ready(function() {
         });
     }
 
+    $('.view-all').on('click', function() {
+        $('.lowField').each(function() {
+            if ($(this).css('display') === 'none') {
+                $(this).css('display', '');
+            } else {
+                $(this).css('display', 'none');
+            }
+        });
+
+    })
+
     // Event listener for the edit button
     $('.btn-edit').on('click', function() {
         var workOrderId = $(this).data('id');

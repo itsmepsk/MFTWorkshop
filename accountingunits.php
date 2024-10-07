@@ -2,16 +2,15 @@
 // Include database connection
 include 'db_connect.php';
 
-// Fetch all indentors with their department from the database
+// Fetch all accounting units with their units from the database
 $sql = "
-    SELECT i.indentor_name, i.id as indentor_id, d.id as department_id, d.department_name, 
-    u.id as unit_id, u.unit_name
-    FROM units u JOIN indentors i
-    JOIN departments d ON i.indentor_department = d.id AND i.indentor_unit = u.id
+    SELECT a.accounting_unit_name, a.id as accounting_unit_id,
+    a.accounting_unit_code, u.id as unit_id, u.unit_name
+    FROM accounting_units a INNER JOIN units u ON a.unit = u.id
 ";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
-$indentors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$accounting_units = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Check user permissions
 include 'restrictions.php'; 
@@ -24,36 +23,35 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Indentors</title>
-    <link rel="stylesheet" href="indentors.css">
+    <title>View Accounting Units</title>
+    <link rel="stylesheet" href="accountingunits.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-    <script src="indentors.js" defer></script>
+    <script src="accountingunits.js" defer></script>
 </head>
 <body>
 
 <div class="content">
     <div class="table-container">
         <div id="delete_message" class="message" style="display: none;"></div>
-        <h2 style="text-align: center;">All Indentors</h2>
+        <h2 style="text-align: center;">All Accounting Units</h2>
         <table id="consigneesTable">
             <thead>
                 <tr>
-                    <th style="width:20px;">S No.</th>
-                    <!-- <th>Indentor Code</th> -->
-                    <th>Indentor Name</th>
+                    <th style="width:70px;">S No.</th>
+                    <th>Accounting Unit Code</th>
+                    <th>Accounting Unit Name</th>
                     <th>Unit</th>
-                    <th>Department</th>
                     <th style="display: none;">Unit ID</th>
-                    <th style="display: none;">Department ID</th>
                     <?php if ($canPerformActions): ?>
                         <th>Actions</th>
                     <?php endif; ?>
                 </tr>
                 <!-- Filter Row -->
                 <tr>
-                    <?php for ($i = 0; $i <= 4; $i++): ?>
+                    <th></th>
+                    <?php for ($i = 1; $i <= 3; $i++): ?>
                         <th>
                             <!-- Text Filter -->
                             <input type="text" class="filter-input" data-column="<?= $i ?>" placeholder="Filter">
@@ -64,24 +62,24 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
                             </select>
                         </th>
                     <?php endfor; ?>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <?php 
                     $counter = 1;
-                    foreach ($indentors as $indentor): 
+                    foreach ($accounting_units as $accounting_unit): 
                 ?>
                 <tr>
-                    <td style="width:20px;"><?php echo htmlspecialchars($counter); ?></td>
-                    <td><?php echo htmlspecialchars($indentor['indentor_name']); ?></td>
-                    <td><?php echo htmlspecialchars($indentor['unit_name']); ?></td>
-                    <td><?php echo htmlspecialchars($indentor['department_name']); ?></td>
-                    <td style="display: none;"><?php echo htmlspecialchars($indentor['unit_id']); ?></td>
-                    <td style="display: none;"><?php echo htmlspecialchars($indentor['department_id']); ?></td>
+                    <td style="width:70px;"><?php echo htmlspecialchars($counter); ?></td>
+                    <td><?php echo htmlspecialchars($accounting_unit['accounting_unit_code']); ?></td>
+                    <td><?php echo htmlspecialchars($accounting_unit['accounting_unit_name']); ?></td>
+                    <td><?php echo htmlspecialchars($accounting_unit['unit_name']); ?></td>
+                    <td style="display: none;"><?php echo htmlspecialchars($accounting_unit['unit_id']); ?></td>
                     <?php if ($canPerformActions): ?>
                         <td>
-                            <button class="btn btn-edit" data-id="<?php echo $indentor['indentor_id']; ?>">Edit</button>
-                            <button class="btn btn-delete" data-id="<?php echo $indentor['indentor_id']; ?>">Delete</button>
+                            <button class="btn btn-edit" data-id="<?php echo $accounting_unit['accounting_unit_id']; ?>">Edit</button>
+                            <button class="btn btn-delete" data-id="<?php echo $accounting_unit['accounting_unit_id']; ?>">Delete</button>
                         </td>
                     <?php endif; ?>
                 </tr>

@@ -13,10 +13,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $indentors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Check user permissions
-include 'restrictions.php'; 
-checkRole(2);
-$canPerformActions = checkRole(2) || $_SESSION['is_admin'];
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +28,12 @@ $canPerformActions = checkRole(2) || $_SESSION['is_admin'];
     <script src="indentors.js" defer></script>
 </head>
 <body>
-
+<?php
+// Check user permissions
+include 'restrictions.php'; 
+checkRole(2);
+$canPerformActions = checkRole(2) || $_SESSION['is_admin'];
+?>
 <div class="content">
     <div class="table-container">
         <div id="delete_message" class="message" style="display: none;"></div>

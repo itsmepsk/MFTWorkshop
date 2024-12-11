@@ -38,6 +38,7 @@ include 'header.php'; // Include the header
                 <a href="enter_accounting_unit.php" class="link">Enter Accounting unit</a>
                 <a href="enter_item.php" class="link">Enter Items</a>
                 <a href="enter_department.php" class="link">Enter Department</a>
+                <a href="enter_dispatch.php" class="link">Enter Dispatch Details</a>
             </div>
         </div>
     </div>

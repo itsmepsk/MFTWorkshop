@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['username'] = $username;
             $_SESSION['is_admin'] = $user['is_admin'];
             // print_r($_SESSION);
-            header('Location: items.php'); // Redirect to a secure page
+            header('Location: index.php'); // Redirect to a secure page
             exit;
         } else {
             $error = 'Invalid username or password.';

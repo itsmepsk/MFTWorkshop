@@ -122,7 +122,7 @@ $dispatches = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tbody>
             <?php if (empty($dispatches)): ?>
                 <tr>
-                    <td colspan="8">No dispatch records found.</td>
+                    <td colspan="9">No dispatch records found.</td>
                 </tr>
             <?php else: ?>
                 <?php foreach ($dispatches as $dispatch): ?>

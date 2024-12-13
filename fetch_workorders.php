@@ -7,7 +7,7 @@ if (isset($_POST['zone'], $_POST['unit'], $_POST['year'])) {
     $year = $_POST['year'];
 
     $stmt = $pdo->prepare('
-        SELECT w.id, w.work_order_number, w.balance_quantity, i.name
+        SELECT w.id, w.job_number, w.work_order_number, w.balance_quantity, i.name
         FROM work_orders w
         JOIN items i ON w.item = i.id
         WHERE w.unit = ? AND w.year = ? AND w.balance_quantity > 0
@@ -17,7 +17,7 @@ if (isset($_POST['zone'], $_POST['unit'], $_POST['year'])) {
 
     echo '<option value="" disabled selected>Select Work Order</option>';
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $workOrderDisplay = htmlspecialchars($row['work_order_number'] . ' - ' . $row['name']. ' | Balance - '. $row['balance_quantity']);
+        $workOrderDisplay = htmlspecialchars($row['job_number'] . ' - ' .$row['work_order_number'] . ' - ' . $row['name']. ' | Balance - '. $row['balance_quantity']);
         echo '<option value="' . htmlspecialchars($row['id']) . '">' . '<b>'.$workOrderDisplay . '</b></option>';
     }
 }

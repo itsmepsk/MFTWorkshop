@@ -20,9 +20,11 @@ unset($_SESSION['success'], $_SESSION['errors']); // Clear messages after displa
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enter Dispatch Details</title>
-    <link rel="stylesheet" href="enter_dispatch.css?v=1">
-
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+    <link rel="stylesheet" href="enter_dispatch.css?v=1">
 </head>
 <body>
 <?php include 'header.php'; ?>
@@ -112,61 +114,71 @@ unset($_SESSION['success'], $_SESSION['errors']); // Clear messages after displa
 
 <script>
     $(document).ready(function () {
-        // Populate Unit dropdown based on Zone selection
-        $('#zone').on('change', function () {
-            const zoneId = $(this).val();
-            $('#unit').prop('disabled', true).html('<option value="" disabled selected>Loading...</option>');
-
-            if (zoneId) {
-                $.ajax({
-                    url: 'fetch_units.php',
-                    type: 'POST',
-                    data: { zone_id: zoneId },
-                    success: function (response) {
-                        $('#unit').html(response).prop('disabled', false);
-                    }
-                });
-            }
-        });
-
-        // Enable Year dropdown dynamically
-        $('#unit').on('change', function () {
-            const zoneId = $('#zone').val();
-            const unitId = $(this).val();
-            $('#year').prop('disabled', true).html('<option value="" disabled selected>Loading...</option>');
-
-            if (zoneId && unitId) {
-                $.ajax({
-                    url: 'fetch_years.php',
-                    type: 'POST',
-                    data: { zone: zoneId, unit: unitId },
-                    success: function (response) {
-                        $('#year').html(response).prop('disabled', false);
-                    }
-                });
-            }
-        });
-
-
-        // Populate Work Order dropdown based on Zone, Unit, and Year
-        $('#year').on('change', function () {
-            const zoneId = $('#zone').val();
-            const unitId = $('#unit').val();
-            const year = $(this).val();
-            $('#workorder').prop('disabled', true).html('<option value="" disabled selected>Loading...</option>');
-
-            if (zoneId && unitId && year) {
-                $.ajax({
-                    url: 'fetch_workorders.php',
-                    type: 'POST',
-                    data: { zone: zoneId, unit: unitId, year: year },
-                    success: function (response) {
-                        $('#workorder').html(response).prop('disabled', false);
-                    }
-                });
-            }
-        });
+    // Apply Select2 only to Work Order dropdown
+    $('#workorder').select2({
+        placeholder: 'Select a work order',
+        allowClear: true,
+        width: '100%'
     });
+
+    // Populate Unit dropdown based on Zone selection
+    $('#zone').on('change', function () {
+        const zoneId = $(this).val();
+        $('#unit').prop('disabled', true).html('<option value="" disabled selected>Loading...</option>');
+
+        if (zoneId) {
+            $.ajax({
+                url: 'fetch_units.php',
+                type: 'POST',
+                data: { zone_id: zoneId },
+                success: function (response) {
+                    $('#unit').html(response).prop('disabled', false);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching units: ", error);
+                }
+            });
+        }
+    });
+
+    // Populate Year dropdown based on Unit selection
+    $('#unit').on('change', function () {
+        const zoneId = $('#zone').val();
+        const unitId = $(this).val();
+        $('#year').prop('disabled', true).html('<option value="" disabled selected>Loading...</option>');
+
+        if (zoneId && unitId) {
+            $.ajax({
+                url: 'fetch_years.php',
+                type: 'POST',
+                data: { zone: zoneId, unit: unitId },
+                success: function (response) {
+                    $('#year').html(response).prop('disabled', false);
+                }
+            });
+        }
+    });
+
+    // Populate Work Order dropdown based on Year selection
+    $('#year').on('change', function () {
+        const zoneId = $('#zone').val();
+        const unitId = $('#unit').val();
+        const year = $(this).val();
+        $('#workorder').prop('disabled', true).html('<option value="" disabled selected>Loading...</option>');
+
+        if (zoneId && unitId && year) {
+            $.ajax({
+                url: 'fetch_workorders.php',
+                type: 'POST',
+                data: { zone: zoneId, unit: unitId, year: year },
+                success: function (response) {
+                    $('#workorder').html(response).prop('disabled', false);
+                    $('#workorder').select2(); // Reinitialize Select2 for workorder dropdown
+                }
+            });
+        }
+    });
+});
 </script>
 </body>
 </html>

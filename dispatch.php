@@ -15,7 +15,7 @@ $filterMonth = $_GET['month'] ?? '';
 $filterItem = $_GET['item'] ?? '';
 
 // Build query dynamically
-$query = "SELECT d.id, d.quantity, d.dispatch_date, u.unit_code as indentor_name, it.name, d.interim_dnote, d.gate_pass, d.final_dnote
+$query = "SELECT wo.job_number, d.id, d.quantity, d.dispatch_date, u.unit_code as indentor_name, it.name, d.interim_dnote, d.gate_pass, d.final_dnote
           FROM dispatches d
           JOIN work_orders wo ON d.work_order_id = wo.id
           JOIN units u ON wo.unit = u.id
@@ -113,6 +113,7 @@ $dispatches = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Item</th>
                 <th>Quantity</th>
                 <th>Dispatch Date</th>
+                <th>Job Number</th>
                 <th>Interim D-note</th>
                 <th>Gate Pass</th>
                 <th>Final D-note</th>
@@ -131,6 +132,7 @@ $dispatches = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo htmlspecialchars($dispatch['name']); ?></td>
                         <td><?php echo htmlspecialchars($dispatch['quantity']); ?></td>
                         <td><?php echo htmlspecialchars($dispatch['dispatch_date']); ?></td>
+                        <td><?php echo htmlspecialchars($dispatch['job_number']); ?></td>
                         <td>
                             <?php if ($dispatch['interim_dnote']): ?>
                                 <a href="<?php echo htmlspecialchars($dispatch['interim_dnote']); ?>" target="_blank">View</a>

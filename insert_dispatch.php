@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php';
-include 'restrictions.php'; 
+// include 'restrictions.php'; 
 checkRole(2); // Assuming role 2 can add dispatch details
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

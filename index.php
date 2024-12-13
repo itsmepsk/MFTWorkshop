@@ -27,6 +27,7 @@ include 'header.php'; // Include the header
                 <a href="accountingunits.php" class="link">View Accounting units</a>
                 <a href="items.php" class="link">View Items</a>
                 <a href="departments.php" class="link">View Departments</a>
+                <a href="dispatch.php" class="link">View Dispatch Details</a>
             </div>
             <!-- Second Column -->
             <div class="link-group">

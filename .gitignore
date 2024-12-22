@@ -1,4 +1,5 @@
 db_connect.php
 trial.php
 test.php
-/uploads
+uploads/
+!/uploads/.htaccess

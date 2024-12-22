@@ -9,9 +9,9 @@ $successMessage = null;
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item = $_POST['item'];
-    $drawingNumber = $_POST['drawing_number'];
+    $drawingNumber = strtoupper($_POST['drawing_number']);
     $description = $_POST['description'];
-    $drawingType = $_POST['drawing_type'];
+    $drawingType = strtoupper($_POST['drawing_type']);
 
     // Validate required fields
     if (empty($item) || empty($drawingNumber) || empty($description) || empty($drawingType)) {
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $targetDir = "uploads/drawings/";
     if (!file_exists($targetDir)) {
         // Create the directory with appropriate permissions
-        if (!mkdir($targetDir, 0777, true)) {
+        if (!mkdir($targetDir, 0777, true) && !is_dir($targetDir)) {
             $errorMessages[] = "Failed to create directory for uploads.";
         }
     }
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the file was uploaded
     if (!empty($_FILES['drawing_file']['name'])) {
         $fileName = basename($_FILES['drawing_file']['name']);
-        $targetFile = $targetDir . $fileName;
+        $targetFile = $targetDir . time() . "_" . $fileName;
         $fileType = pathinfo($targetFile, PATHINFO_EXTENSION);
 
         // Allow only PDF files
@@ -45,17 +45,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Insert into database
                 $stmt = $pdo->prepare("
                     INSERT INTO drawings (item, drawing_number, description, drawing_type, file_path) 
-                    VALUES (:item, :drawing_number, :description, :file_path)
+                    VALUES (:item, :drawing_number, :description, :drawing_type, :file_path)
                 ");
-                $stmt->execute([
-                    ':item' => $item,
-                    ':drawing_number' => $drawingNumber,
-                    ':description' => $description,
-                    'drawing_type'  =>  $drawingType,
-                    ':file_path' => $targetFile
-                ]);
 
-                $successMessage = "Drawing uploaded successfully.";
+                try {
+                    $stmt->execute([
+                        ':item' => $item,
+                        ':drawing_number' => $drawingNumber,
+                        ':description' => $description,
+                        ':drawing_type' => $drawingType,
+                        ':file_path' => $targetFile
+                    ]);
+                    $successMessage = "Drawing uploaded successfully.";
+                } catch (PDOException $e) {
+                    // Catch SQL errors and add them to the error messages
+                    $errorMessages[] = "Database error: " . $e->getMessage();
+                }
             } else {
                 $errorMessages[] = "Failed to upload the file.";
             }
@@ -66,10 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Store messages in session and redirect
-if ($successMessage) {
-    $_SESSION['success'] = $successMessage;
-} else {
+if (!empty($errorMessages)) {
     $_SESSION['errors'] = $errorMessages;
+} else {
+    $_SESSION['success'] = $successMessage;
 }
 
 header("Location: enter_drawing.php");

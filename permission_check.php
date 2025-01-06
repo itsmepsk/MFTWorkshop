@@ -15,7 +15,7 @@ function hasPermission($page) {
     $user_id = $_SESSION['user_id'];
     // echo $user_id;
     // Check if permissions are already stored in the session
-    if (isset($_SESSION['permissions'])) {
+    if (isset($_SESSION['permissions'][$page])) {
         return $_SESSION['permissions'][$page];
     }
 

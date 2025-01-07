@@ -108,7 +108,7 @@ $dispatches = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <table class="dispatch-table">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>S No.</th>
                 <th>Unit</th>
                 <th>Item</th>
                 <th>Quantity</th>
@@ -125,9 +125,11 @@ $dispatches = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td colspan="9">No dispatch records found.</td>
                 </tr>
             <?php else: ?>
-                <?php foreach ($dispatches as $dispatch): ?>
+                <?php 
+                    $serialNumber = 1;
+                    foreach ($dispatches as $dispatch): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($dispatch['id']); ?></td>
+                        <td><?php echo $serialNumber++; ?></td>
                         <td><?php echo htmlspecialchars($dispatch['indentor_name']); ?></td>
                         <td><?php echo htmlspecialchars($dispatch['name']); ?></td>
                         <td><?php echo htmlspecialchars($dispatch['quantity']); ?></td>

@@ -28,6 +28,8 @@ include 'header.php'; // Include the header
                 <a href="items.php" class="link">View Items</a>
                 <a href="departments.php" class="link">View Departments</a>
                 <a href="dispatch.php" class="link">View Dispatch Details</a>
+                <a href="pages.php" class="link">View Pages</a>
+                <a href="drawings.php" class="link">View Drawings</a>
             </div>
             <!-- Second Column -->
             <div class="link-group">
@@ -40,6 +42,8 @@ include 'header.php'; // Include the header
                 <a href="enter_item.php" class="link">Enter Items</a>
                 <a href="enter_department.php" class="link">Enter Department</a>
                 <a href="enter_dispatch.php" class="link">Enter Dispatch Details</a>
+                <a href="add_page.php" class="link">Add Page</a>
+                <a href="enter_drawing.php" class="link">Enter Drawing</a>
             </div>
         </div>
     </div>

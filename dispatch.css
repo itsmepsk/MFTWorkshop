@@ -42,7 +42,7 @@ h2 {
 }
 
 .filter-form button {
-    background-color: #007BFF;
+    background-color: #4CAF50;
     color: white;
     cursor: pointer;
     border: none;
@@ -50,7 +50,7 @@ h2 {
 }
 
 .filter-form button:hover {
-    background-color: #0056b3;
+    background-color: #45a049;
 }
 
 .dispatch-table {
@@ -66,8 +66,9 @@ h2 {
 }
 
 .dispatch-table th {
-    background-color: #f8f8f8;
+    background-color: #4CAF50;
     font-weight: bold;
+    color: white;
 }
 
 .dispatch-table tr:nth-child(even) {

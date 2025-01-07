@@ -83,6 +83,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':id', $departmentId);
             break;
 
+        case 'page':
+            $id = $_POST['id'];
+            $pageName = $_POST['page_name'];
+
+            $stmt = $pdo->prepare("UPDATE pages SET page_name = :page_name WHERE id = :id");
+            $stmt->execute([
+                ':page_name' => $pageName,
+                ':id' => $id,
+            ]);
+            break;
+
         case 'work_order':
             $workOrderId = $_POST['work_order_id'];
             $workOrderNumber = $_POST['work_order_number'];
